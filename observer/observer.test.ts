@@ -43,7 +43,7 @@ test('5_Cuando_BidUp_Deberia_RealizarUnaOfertaDelSubastadorSeleccionado', () => 
     const diamond = new Product({ name: "Diamante", price: 5 });
     concreteAgent.product = diamond;
     concreteAgent.bidUp(auctioneerC, 5);
-    expect(concreteAgent.ofertado).toBe(1);
+    expect(concreteAgent.ofertado).toBeTruthy();
 }); 
 
 test('6_Cuando_Unsubscribe_Deberia_QuitarAlSubastadorDeLosSubastadores', () => {
@@ -62,6 +62,16 @@ test('7_Cuando_Update_Deberia_ActualizarACadaSubastadorElEstadoDelProducto', () 
     concreteAgent.product = diamond;
     concreteAgent.bidUp(auctioneerC, 5);
     expect(auctioneerC.subastadorNotificado).toBeTruthy();
+}); 
+
+test('8_Cuando_Notify_Deberia_NotificarATodosLosSubastadoresSubscriptos', () => {
+    const concreteAgent = new ConcreteAgent();
+    const auctioneerC = new ConcreteAuctioneerC();
+    concreteAgent.subscribe(auctioneerC);
+    const diamond = new Product({ name: "Diamante", price: 5 });
+    concreteAgent.product = diamond;
+    concreteAgent.bidUp(auctioneerC, 5);
+    expect(concreteAgent.notificados).toBeTruthy();
 }); 
 
 

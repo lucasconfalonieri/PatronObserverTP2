@@ -5,7 +5,8 @@ import { Product } from "./product";
 export class ConcreteAgent implements Agent {
   public product: Product;
   public auctioneers: Auctioneer[] = [];
-  public ofertado = 0;
+  public ofertado = false;
+  public notificados = false;
 
   public subscribe(auctioneer: Auctioneer): void {
     const isExist = this.auctioneers.includes(auctioneer);
@@ -35,7 +36,8 @@ export class ConcreteAgent implements Agent {
   }
 
   public bidUp(auctioneer, bid): void {
-    this.ofertado = 1;
+    this.ofertado = true;
+    this.notificados = true;
     console.log("Agente: Estoy verificando la puja");
     const isExist = this.auctioneers.includes(auctioneer);
     if (!isExist) {
