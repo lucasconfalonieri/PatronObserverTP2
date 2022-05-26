@@ -5,6 +5,7 @@ import { ConcreteAgent } from "./concrete-agent";
 export class ConcreteAuctioneerB implements Auctioneer {
   name = "ConcreteAuctioneerB";
   MAX_LIMIT = 200;
+  subastadorNotificado = true;
 
   public update(agent: Agent): void {
     if (!(agent instanceof ConcreteAgent)) {

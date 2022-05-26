@@ -7,20 +7,20 @@ import { ConcreteAuctioneerD } from "./src/concrete-auctioneerD";
 import { Product } from "./src/product";
 
 
-test('Cuando_SeCreaProduct_Deberia_CrearseConNombreYPrecioYSinDueño', () => {
+test('1_Cuando_SeCreaProduct_Deberia_CrearseConNombreYPrecioYSinDueño', () => {
     const diamond = new Product({ nombre: "Diamante", precio: 4 });
     expect(diamond.nombre).toEqual("Diamante");
     expect(diamond.precio).toBe(4);
     expect(diamond.auctionner).toBeNull();
 });
 
-test('Cuando_SeCreaUnAuctioneer_Deberia_PoseerNombreYLimiteDePuja', () => {
+test('2_Cuando_SeCreaUnAuctioneer_Deberia_PoseerNombreYLimiteDePuja', () => {
     const auctioneerA = new ConcreteAuctioneerA();
     expect(auctioneerA.name).toEqual("ConcreteAuctioneerA");
     expect(auctioneerA.MAX_LIMIT).toBe(100);
 }); 
 
-test('Cuando_SeCreaConcreteAgent_Deberia_PoseerSubastadoresYUnProducto', () => {
+test('3_Cuando_SeCreaConcreteAgent_Deberia_PoseerSubastadoresYUnProducto', () => {
     const concreteAgent = new ConcreteAgent();
     expect.arrayContaining(concreteAgent.auctioneers);
     const diamond = new Product({ nombre: "Diamante", precio: 4 });
@@ -29,20 +29,40 @@ test('Cuando_SeCreaConcreteAgent_Deberia_PoseerSubastadoresYUnProducto', () => {
     expect(concreteAgent.product.precio).toBe(4);
 }); 
 
-test('Cuando_Subscribe_Deberia_AgregarUnSubastadorALosSubastadores', () => {
+test('4_Cuando_Subscribe_Deberia_AgregarUnSubastadorALosSubastadores', () => {
     const concreteAgent = new ConcreteAgent();
-    const auctioneerA = new ConcreteAuctioneerA();
-    concreteAgent.subscribe(auctioneerA);
-    expect(concreteAgent.auctioneers[0]).toBe(auctioneerA);
+    const auctioneerB = new ConcreteAuctioneerB();
+    concreteAgent.subscribe(auctioneerB);
+    expect(concreteAgent.auctioneers[0]).toBe(auctioneerB);
 }); 
 
-test('Cuando_BidUp_Deberia_RealizarUnaOfertaDelSubastadorSeleccionado', () => {
+test('5_Cuando_BidUp_Deberia_RealizarUnaOfertaDelSubastadorSeleccionado', () => {
     const concreteAgent = new ConcreteAgent();
-    const auctioneerA = new ConcreteAuctioneerA();
-    concreteAgent.subscribe(auctioneerA);
+    const auctioneerC = new ConcreteAuctioneerC();
+    concreteAgent.subscribe(auctioneerC);
     const diamond = new Product({ name: "Diamante", price: 5 });
     concreteAgent.product = diamond;
-    concreteAgent.bidUp(auctioneerA, 5);
+    concreteAgent.bidUp(auctioneerC, 5);
     expect(concreteAgent.ofertado).toBe(1);
 }); 
+
+test('6_Cuando_Unsubscribe_Deberia_QuitarAlSubastadorDeLosSubastadores', () => {
+    const concreteAgent = new ConcreteAgent();
+    const auctioneerD = new ConcreteAuctioneerD();
+    concreteAgent.subscribe(auctioneerD);
+    concreteAgent.unsubscribe(auctioneerD);
+    expect(concreteAgent.auctioneers.length).toBe(0);
+});
+
+test('7_Cuando_Update_Deberia_ActualizarACadaSubastadorElEstadoDelProducto', () => {
+    const concreteAgent = new ConcreteAgent();
+    const auctioneerC = new ConcreteAuctioneerC();
+    concreteAgent.subscribe(auctioneerC);
+    const diamond = new Product({ name: "Diamante", price: 5 });
+    concreteAgent.product = diamond;
+    concreteAgent.bidUp(auctioneerC, 5);
+    expect(auctioneerC.subastadorNotificado).toBeTruthy();
+}); 
+
+
 
