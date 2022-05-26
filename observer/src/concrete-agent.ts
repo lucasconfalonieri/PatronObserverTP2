@@ -29,7 +29,7 @@ export class ConcreteAgent implements Agent {
   }
 
   public notify(): void {
-    console.log("Agente: Notificando subastador...");
+    console.log("Agente: Notificando subastadores...");
     for (const auctioneer of this.auctioneers) {
       auctioneer.update(this);
     }
