@@ -8,9 +8,9 @@ import { Product } from "./src/product";
 
 
 test('Cuando_SeCreaProduct_Deberia_CrearseConNombreYPrecioYSinDueño', () => {
-    const diamond = new Product({ nombre: "Diamante", precio: 5 });
+    const diamond = new Product({ nombre: "Diamante", precio: 4 });
     expect(diamond.nombre).toEqual("Diamante");
-    expect(diamond.precio).toBe(5);
+    expect(diamond.precio).toBe(4);
     expect(diamond.auctionner).toBeNull();
 });
 
